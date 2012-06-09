@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<meta charset="utf-8" />
+<title></title>
+
+<script type="text/javascript">
+var saveOptions = function() {
+  var BG = chrome.extension.getBackgroundPage();
+  var buffer_Minutes = document.getElementById('buffer_minutes').value;
+  if(buffer_Minutes == undefined || buffer_Minutes.match(/[^0-9]+/)){
+    alert("入力が正しくありません");
+  } else {
+    localStorage["BufferMinutes"] = buffer_Minutes;
+    BG.init();
+    alert(buffer_Minutes+"分後に設定しました。");
+    close();
+  }
+
+};
+
+var loadOptions = function() {
+  var buffer_Minutes = localStorage["BufferMinutes"];
+  if (buffer_Minutes) {
+    document.getElementById('buffer_minutes').value = buffer_Minutes;
+  }
+};
+
+</script>
+
+</head>
+
+<body onload="loadOptions();">
+
+<h1>Options</h1>
+
+norikae [from] [to] （現時刻発検索）で、現時刻から何分後に検索するか、デフォルト値を設定できます。
+<br>
+
+<div id="wrapper">
+    <div id="options">
+        <label for="username">現時刻からの時間幅：</label>
+        <input type="text" placeholder="0" id="buffer_minutes" />
+        分
+        <input type="button" id="set-buffer_minutes" value="Save" onclick="saveOptions();" />
+    </div>
+</div>
+
+</body> </html>
