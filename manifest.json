@@ -1,6 +1,6 @@
 {
   "name":"かんたん乗換検索",
-  "version":"1.0.0",
+  "version":"1.0.1",
   "description" : "ジョルダンの乗換案内をアドレスバーから簡単に使えるようにしました。",
   "icons":{"48":"icon_48.png","128":"icon_128.png"},
   "omnibox": {
