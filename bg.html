@@ -7,7 +7,13 @@
   var url_origin = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
   var buffer_Minutes=0;
   var search_other_query = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
-
+  //const value
+  const SEARCH_DEPARTURE_NOW = 1;
+  const SEARCH_FIRST_TRAIN = 2;
+  const SEARCH_LAST_TRAIN = 3;
+  const SEARCH_DEPARTURE_AFTER_MINUTES = 4;
+  const SEARCH_DEPARTURE_AFTER_TIME = 5;
+  const SEARCH_ARRIVAL_AFTER_TIME = 6;
 
 chrome.omnibox.onInputEntered.addListener(function(text){
   init();
@@ -37,13 +43,13 @@ function isStationSet(arg1,arg2){
 
 function setSearchKind(arg1,arg2){
   var ret=-1;
-  if(arg1==undefined && arg2==undefined){ ret=1; }
+  if(arg1==undefined && arg2==undefined){ ret=SEARCH_DEPARTURE_NOW; }
   else {
-    if(arg1=="first" && arg2==undefined){ ret=2; }
-    if(arg1=="last" && arg2==undefined){ ret=3;}
-    if(arg1.match(/^[0-9]{1,3}$/) && arg2==undefined){ ret=4; }
-    if(arg1.match(/^[0-2][0-9][0-5][0-9]$/) && arg2==undefined){ ret=5; }
-    if(arg1.match(/^[0-2][0-9][0-5][0-9]$/) && arg2=="-g"){ ret=6; }
+    if(arg1=="first" && arg2==undefined){ ret=SEARCH_FIRST_TRAIN; }
+    if(arg1=="last" && arg2==undefined){ ret=SEARCH_LAST_TRAIN;}
+    if(arg1.match(/^[0-9]{1,3}$/) && arg2==undefined){ ret=SEARCH_DEPARTURE_AFTER_MINUTES; }
+    if(arg1.match(/^[0-2][0-9][0-5][0-9]$/) && arg2==undefined){ ret=SEARCH_DEPARTURE_AFTER_TIME; }
+    if(arg1.match(/^[0-2][0-9][0-5][0-9]$/) && arg2=="-g"){ ret=SEARCH_ARRIVAL_AFTER_TIME; }
   }
 
   return ret;
@@ -56,12 +62,12 @@ function getStationInfo(station_from,station_to){
 
 function getSearchURL(arg1,arg2,arg3,arg4,search_kind){
   var url="";
-  if(search_kind == 1) { url=getURLDepartureNow(arg1,arg2,arg3,arg4); }
-  if(search_kind == 2) { url=getURLFirstTrain(arg1,arg2,arg3,arg4); }
-  if(search_kind == 3) { url=getURLLastTrain(arg1,arg2,arg3,arg4); }
-  if(search_kind == 4) { url=getURLDepartureAfterMinutes(arg1,arg2,arg3,arg4); }
-  if(search_kind == 5) { url=getURLDepartureAfterTime(arg1,arg2,arg3,arg4); }
-  if(search_kind == 6) { url=getURLArrivalAfterTime(arg1,arg2,arg3,arg4); }
+  if(search_kind == SEARCH_DEPARTURE_NOW) { url=getURLDepartureNow(arg1,arg2,arg3,arg4); }
+  if(search_kind == SEARCH_FIRST_TRAIN) { url=getURLFirstTrain(arg1,arg2,arg3,arg4); }
+  if(search_kind == SEARCH_LAST_TRAIN) { url=getURLLastTrain(arg1,arg2,arg3,arg4); }
+  if(search_kind == SEARCH_DEPARTURE_AFTER_MINUTES) { url=getURLDepartureAfterMinutes(arg1,arg2,arg3,arg4); }
+  if(search_kind == SEARCH_DEPARTURE_AFTER_TIME) { url=getURLDepartureAfterTime(arg1,arg2,arg3,arg4); }
+  if(search_kind == SEARCH_ARRIVAL_AFTER_TIME) { url=getURLArrivalAfterTime(arg1,arg2,arg3,arg4); }
   return url;
 }
   
