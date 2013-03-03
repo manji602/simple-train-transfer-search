@@ -1,48 +1,78 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> <head>
+<html>
+<head>
 <meta charset="utf-8" />
-<title></title>
-
-<script type="text/javascript">
-var saveOptions = function() {
-  var BG = chrome.extension.getBackgroundPage();
-  var buffer_Minutes = document.getElementById('buffer_minutes').value;
-  if(buffer_Minutes == undefined || buffer_Minutes.match(/[^0-9]+/)){
-    alert("入力が正しくありません");
-  } else {
-    localStorage["BufferMinutes"] = buffer_Minutes;
-    BG.init();
-    alert(buffer_Minutes+"分後に設定しました。");
-    close();
-  }
-
-};
-
-var loadOptions = function() {
-  var buffer_Minutes = localStorage["BufferMinutes"];
-  if (buffer_Minutes) {
-    document.getElementById('buffer_minutes').value = buffer_Minutes;
-  }
-};
-
-</script>
-
+<title>options</title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/options.js"></script>
+<link href="http://manji602.com/css/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
 
-<body onload="loadOptions();">
+<body>
+<div class="container">
+<h2>Options</h2>
 
-<h1>Options</h1>
-
-norikae [from] [to] （現時刻発検索）で、現時刻から何分後に検索するか、デフォルト値を設定できます。
-<br>
+<blockquote>
+norikae 出発駅 到着駅 （現在時刻出発で検索）で、現時刻から何分後に検索するか、デフォルト値を設定できます。
+</blockquote>
 
 <div id="wrapper">
     <div id="options">
         <label for="username">現時刻からの時間幅：</label>
-        <input type="text" placeholder="0" id="buffer_minutes" />
-        分
-        <input type="button" id="set-buffer_minutes" value="Save" onclick="saveOptions();" />
+        <input type="text" class="input-small" placeholder="0" id="bufferMinutes" />分<br>
+        <button type="button" class="btn btn-primary">Save changes</button>
     </div>
 </div>
 
-</body> </html>
+<h2>乗換検索オプション</h2>
+
+<blockquote>
+  このChrome拡張機能で利用可能な乗換検索方法についてご紹介します。
+</blockquote>
+
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>凡例</th>
+    <th>入力方法</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>現在時刻出発で検索</td>
+    <td>norikae 出発駅 到着駅</td>
+  </tr>
+  <tr>
+    <td>始発で検索</td>
+    <td>norikae 出発駅 到着駅 first</td>
+  </tr>
+  <tr>
+    <td>終電で検索</td>
+    <td>norikae 出発駅 到着駅 last</td>
+  </tr>
+  <tr>
+    <td>現在時刻から30分後出発で検索</td>
+    <td>norikae 出発駅 到着駅 30</td>
+  </tr>
+  <tr>
+    <td>20:00に出発で検索</td>
+    <td>norikae 出発駅 到着駅 2000</td>
+  </tr>
+  <tr>
+    <td>現在時刻から30分後到着で検索</td>
+    <td>norikae 出発駅 到着駅 30 -g</td>
+  </tr>
+  <tr>
+    <td>20:00に到着で検索</td>
+    <td>norikae 出発駅 到着駅 2000 -g</td>
+  </tr>
+  <tr>
+    <td>時刻表を検索</td>
+    <td>norikae 対象駅</td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</body>
+</html>
