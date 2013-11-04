@@ -1,12 +1,12 @@
     //global value
-    const TRANSFER_SEARCH_HEADER = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
-    const TRANSFER_SEARCH_FOOTER = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
-    const TIMETABLE_SEARCH_HEADER = "http://www.jorudan.co.jp/time/cgi/time.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
-    const TIMETABLE_SEARCH_FOOTER = "&S.x=35&S.y=10&S=検索&Csg=1"
-    const TIMETABLE_SEARCH_MODE = 111;
-    const TRANSFER_SEARCH_MODE  = 222;
-    const UNDEFINED_SEARCH_MODE = 333;
-    const TRANSFER_SEARCH_MODE_OF = {
+    const TRANSFER_SEARCH_HEADER   = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
+    const TRANSFER_SEARCH_FOOTER   = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
+    const TIMETABLE_SEARCH_HEADER  = "http://www.jorudan.co.jp/time/cgi/time.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
+    const TIMETABLE_SEARCH_FOOTER  = "&S.x=35&S.y=10&S=検索&Csg=1"
+    const TIMETABLE_SEARCH_MODE    = 111;
+    const TRANSFER_SEARCH_MODE     = 222;
+    const UNDEFINED_SEARCH_MODE    = 333;
+    const TRANSFER_SEARCH_MODE_OF  = {
         NOW : 1,
         FIRST_TRAIN : 2,
         LAST_TRAIN : 3,
@@ -17,12 +17,12 @@
         UNDEFINED : -1,
     };
     const SEARCH_FIRST_TRAIN_QUERY = "first";
-    const SEARCH_LAST_TRAIN_QUERY = "last";
-    const SEARCH_ARRIVAL_QUERY = "-g";
-    const TIME_REGEXP = "^([01]?[0-9]|2[0-3])([0-5][0-9])$";
-    const NUMBER_REGEXP = "^[0-9]+$";
-    var BUFFER_MINUTES = 0;
-    
+    const SEARCH_LAST_TRAIN_QUERY  = "last";
+    const SEARCH_ARRIVAL_QUERY     = "-g";
+    const TIME_REGEXP              = "^([01]?[0-9]|2[0-3])([0-5][0-9])$";
+    const NUMBER_REGEXP            = "^[0-9]+$";
+    var BUFFER_MINUTES             = 0;
+
 chrome.omnibox.onInputEntered.addListener (function (text) {
     init();
     var query = getQuery(text);
