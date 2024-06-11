@@ -238,7 +238,7 @@ const setTimeBuffer = function (time) {
 
 const navigate = function (url) {
   if (url !== "") {
-    chrome.tabs.getSelected(null,function(tab){
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, ([tab]) => {
       chrome.tabs.update(
         tab.id,
         {url:url}
