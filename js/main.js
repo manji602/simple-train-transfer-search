@@ -21,7 +21,6 @@ const SEARCH_LAST_TRAIN_QUERY  = "last";
 const SEARCH_ARRIVAL_QUERY     = "-g";
 const TIME_REGEXP              = "^([01]?[0-9]|2[0-3])([0-5][0-9])$";
 const NUMBER_REGEXP            = "^[0-9]+$";
-let BUFFER_MINUTES             = 0;
 
 chrome.omnibox.onInputEntered.addListener (function (text) {
   init();
@@ -33,10 +32,6 @@ chrome.omnibox.onInputEntered.addListener (function (text) {
 
 const init = function() {
   const numberRegExp = new RegExp (NUMBER_REGEXP);
-  const buffer = localStorage["BufferMinutes"];
-  if (buffer != null && buffer.match(numberRegExp)){
-    BUFFER_MINUTES=buffer;
-  }
 };
 
 const getQuery = function (text) {
