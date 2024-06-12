@@ -1,78 +1,57 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
-<head>
-<meta charset="utf-8" />
-<title>options</title>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/options.js"></script>
-<link href="http://manji602.com/css/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <title>options</title>
+  </head>
 
-<body>
-<div class="container">
-<h2>Options</h2>
+  <body>
+    <div class="container">
+      <h2>乗換検索オプション</h2>
+      <p>このChrome拡張機能で利用可能な乗換検索方法についてご紹介します。</p>
 
-<blockquote>
-norikae 出発駅 到着駅 （現在時刻出発で検索）で、現時刻から何分後に検索するか、デフォルト値を設定できます。
-</blockquote>
-
-<div id="wrapper">
-    <div id="options">
-        <label for="username">現時刻からの時間幅：</label>
-        <input type="text" class="input-small" placeholder="0" id="bufferMinutes" />分<br>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>凡例</th>
+            <th>入力方法</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>現在時刻出発で検索</td>
+            <td>norikae 出発駅 到着駅</td>
+          </tr>
+          <tr>
+            <td>始発で検索</td>
+            <td>norikae 出発駅 到着駅 first</td>
+          </tr>
+          <tr>
+            <td>終電で検索</td>
+            <td>norikae 出発駅 到着駅 last</td>
+          </tr>
+          <tr>
+            <td>現在時刻から30分後出発で検索</td>
+            <td>norikae 出発駅 到着駅 30</td>
+          </tr>
+          <tr>
+            <td>20:00に出発で検索</td>
+            <td>norikae 出発駅 到着駅 2000</td>
+          </tr>
+          <tr>
+            <td>現在時刻から30分後到着で検索</td>
+            <td>norikae 出発駅 到着駅 30 -g</td>
+          </tr>
+          <tr>
+            <td>20:00に到着で検索</td>
+            <td>norikae 出発駅 到着駅 2000 -g</td>
+          </tr>
+          <tr>
+            <td>時刻表を検索</td>
+            <td>norikae 対象駅</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</div>
-
-<h2>乗換検索オプション</h2>
-
-<blockquote>
-  このChrome拡張機能で利用可能な乗換検索方法についてご紹介します。
-</blockquote>
-
-<table class="table table-striped">
-<thead>
-  <tr>
-    <th>凡例</th>
-    <th>入力方法</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>現在時刻出発で検索</td>
-    <td>norikae 出発駅 到着駅</td>
-  </tr>
-  <tr>
-    <td>始発で検索</td>
-    <td>norikae 出発駅 到着駅 first</td>
-  </tr>
-  <tr>
-    <td>終電で検索</td>
-    <td>norikae 出発駅 到着駅 last</td>
-  </tr>
-  <tr>
-    <td>現在時刻から30分後出発で検索</td>
-    <td>norikae 出発駅 到着駅 30</td>
-  </tr>
-  <tr>
-    <td>20:00に出発で検索</td>
-    <td>norikae 出発駅 到着駅 2000</td>
-  </tr>
-  <tr>
-    <td>現在時刻から30分後到着で検索</td>
-    <td>norikae 出発駅 到着駅 30 -g</td>
-  </tr>
-  <tr>
-    <td>20:00に到着で検索</td>
-    <td>norikae 出発駅 到着駅 2000 -g</td>
-  </tr>
-  <tr>
-    <td>時刻表を検索</td>
-    <td>norikae 対象駅</td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</body>
+  </body>
 </html>
