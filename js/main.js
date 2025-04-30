@@ -1,12 +1,12 @@
 //global value
-const TRANSFER_SEARCH_HEADER   = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
-const TRANSFER_SEARCH_FOOTER   = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
-const TIMETABLE_SEARCH_HEADER  = "http://www.jorudan.co.jp/time/cgi/nori.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
-const TIMETABLE_SEARCH_FOOTER  = "&S.x=35&S.y=10&S=検索&Csg=1"
-const TIMETABLE_SEARCH_MODE    = 111;
-const TRANSFER_SEARCH_MODE     = 222;
-const UNDEFINED_SEARCH_MODE    = 333;
-const TRANSFER_SEARCH_MODE_OF  = {
+const TRANSFER_SEARCH_HEADER = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
+const TRANSFER_SEARCH_FOOTER = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
+const TIMETABLE_SEARCH_HEADER = "http://www.jorudan.co.jp/time/cgi/nori.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
+const TIMETABLE_SEARCH_FOOTER = "&S.x=35&S.y=10&S=検索&Csg=1"
+const TIMETABLE_SEARCH_MODE = "timetable";
+const TRANSFER_SEARCH_MODE = "transfer";
+const UNDEFINED_SEARCH_MODE = "undefined";
+const TRANSFER_SEARCH_MODE_OF = {
   NOW : 1,
   FIRST_TRAIN : 2,
   LAST_TRAIN : 3,
@@ -17,37 +17,35 @@ const TRANSFER_SEARCH_MODE_OF  = {
   UNDEFINED : -1,
 };
 const SEARCH_FIRST_TRAIN_QUERY = "first";
-const SEARCH_LAST_TRAIN_QUERY  = "last";
-const SEARCH_ARRIVAL_QUERY     = "-g";
-const TIME_REGEXP              = "^([01]?[0-9]|2[0-3])([0-5][0-9])$";
-const NUMBER_REGEXP            = "^[0-9]+$";
+const SEARCH_LAST_TRAIN_QUERY = "last";
+const SEARCH_ARRIVAL_QUERY = "-g";
+const TIME_REGEXP = "^([01]?[0-9]|2[0-3])([0-5][0-9])$";
+const NUMBER_REGEXP = "^[0-9]+$";
+const SEARCH_MODE_QUERY_THRESHOLD = {
+  "timetable" : 1,
+  "transfer_lower_limit" : 2,
+  "transfer_upper_limit" : 4,
+}
 
 chrome.omnibox.onInputEntered.addListener (function (text) {
-  init();
   const query = getQuery(text);
   const searchMode = setSearchMode(query);
   const url = setSearchUrl(query, searchMode);
   navigate(url);
 });
 
-const init = function() {
-  const numberRegExp = new RegExp (NUMBER_REGEXP);
-};
-
 const getQuery = function (text) {
-  const query = text.replace(/^\s+|\s+$/g,"").split(/[\s,]+/);
-  return query;
+  return text.replace(/^\s+|\s+$/g,"").split(/[\s,]+/);
 };
 
 const setSearchMode = function (query) {
-  let searchMode = UNDEFINED_SEARCH_MODE;
-  if (query.length == 1) {
-    searchMode = TIMETABLE_SEARCH_MODE;
+  if (query.length == SEARCH_MODE_QUERY_THRESHOLD.timetable) {
+    return TIMETABLE_SEARCH_MODE;
   }
-  if (query.length >= 2 && query.length <= 4) {
-    searchMode = TRANSFER_SEARCH_MODE;
+  if (query.length >= SEARCH_MODE_QUERY_THRESHOLD.transfer_lower_limit && query.length <= SEARCH_MODE_QUERY_THRESHOLD.transfer_upper_limit) {
+    return TRANSFER_SEARCH_MODE;
   }
-  return searchMode;
+  return UNDEFINED_SEARCH_MODE;
 };
 
 const setTransferSearchMode = function (query) {
@@ -107,8 +105,8 @@ const setSearchUrl = function (query, searchMode) {
 const getTimetableUrl = function (query) {
   let url = "";
   const date = setDate();
-  url = TIMETABLE_SEARCH_HEADER + query + "&" + date + TIMETABLE_SEARCH_FOOTER;
-  return url;
+
+  return `${TIMETABLE_SEARCH_HEADER}${query}&${date}${TIMETABLE_SEARCH_FOOTER}`;
 };
 
 const getTransferUrl = function (query, transferSearchMode) {
@@ -143,21 +141,21 @@ const getMiddleQueryNow = function(query){
   const stationQuery = getStationQuery(query[0], query[1]);
   const searchDate = setDate();
   const searchWay = "Cway=0&";
-  return stationQuery + searchDate + searchWay;
+  return `${stationQuery}${searchDate}${searchWay}`;
 };
 
 const getMiddleQueryFirst = function(query){
   const stationQuery = getStationQuery(query[0], query[1]);
   const searchDate = setDate();
   const searchWay = "Cway=2&";
-  return stationQuery + searchDate + searchWay;
+  return `${stationQuery}${searchDate}${searchWay}`;
 };
 
 const getMiddleQueryLast = function(query) {
   const stationQuery = getStationQuery(query[0], query[1]);
   const searchDate = setDate();
   const searchWay = "Cway=3&";
-  return stationQuery + searchDate + searchWay;
+  return `${stationQuery}${searchDate}${searchWay}`;
 };
 
 const getMiddleQueryDepartureAfterMinutes = function(query) {
@@ -165,7 +163,7 @@ const getMiddleQueryDepartureAfterMinutes = function(query) {
   const searchDate = setDate();
   const searchMinutesBuffer = setMinutesBuffer(parseInt(query[2]));
   const searchWay = "Cway=0&";
-  return stationQuery + searchDate + searchMinutesBuffer + searchWay;
+  return `${stationQuery}${searchDate}${searchMinutesBuffer}${searchWay}`;
 
 };
 
@@ -175,7 +173,7 @@ const getMiddleQueryDepartureAfterTime = function(query) {
   const searchTimeBuffer = setTimeBuffer(query[2]);
   const searchWay = "Cway=0&";
 
-  return stationQuery + searchDate + searchTimeBuffer + searchWay;
+  return `${stationQuery}${searchDate}${searchTimeBuffer}${searchWay}`;
 };
 
 const getMiddleQueryArrivalBeforeMinutes = function(query) {
@@ -183,7 +181,8 @@ const getMiddleQueryArrivalBeforeMinutes = function(query) {
   const searchDate = setDate();
   const searchMinutesBuffer = setMinutesBuffer(parseInt(query[2]));
   const searchWay = "Cway=1&";
-  return stationQuery + searchDate + searchMinutesBuffer + searchWay;
+
+  return `${stationQuery}${searchDate}${searchMinutesBuffer}${searchWay}`;
 };
 
 const getMiddleQueryArrivalBeforeTime = function(query) {
@@ -191,27 +190,30 @@ const getMiddleQueryArrivalBeforeTime = function(query) {
   const searchDate = setDate();
   const searchTimeBuffer = setTimeBuffer(query[2]);
   const searchWay = "Cway=1&";
-  return stationQuery + searchDate + searchTimeBuffer + searchWay;
+
+  return `${stationQuery}${searchDate}${searchTimeBuffer}${searchWay}`;
 };
 
-const getStationQuery = function(station_from, station_to) {
-  return "eki1=" + station_from + "&eki2=" + station_to + "&";
+const getStationQuery = function(stationFrom, stationTo) {
+  return `eki1=${stationFrom}&eki2=${stationTo}&`;
 };
 
 const setDate = function () {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
+
   return `Dyy=${year}&Dmm=${month}&Ddd=${date.getDate()}&`;
 };
 
 const addMinutes = function (date, minutes) {
-  let ret = new Date();
+  let updatedDate = new Date();
   const baseSec = date.getTime();
   const addSec = minutes * 60 * 1000;
   const targetSec = baseSec + addSec;
-  ret.setTime(targetSec);
-  return ret;
+  updatedDate.setTime(targetSec);
+
+  return updatedDate;
 };
 
 const setMinutesBuffer = function (minutes) {
@@ -223,6 +225,7 @@ const setMinutesBuffer = function (minutes) {
   minute = "" + minute;
   const min1 = minute.slice(0, 1);
   const min2 = minute.slice(1);
+
   return `Dhh=${hour}&Dmn1=${min1}&Dmn2=${min2}&`;
 };
 
@@ -231,6 +234,7 @@ const setTimeBuffer = function (time) {
   const minutes = (time.length === 3) ? time.slice(1) : time.slice(2);
   const min1 = minutes.slice(0, 1);
   const min2 = minutes.slice(1);
+
   return `Dhh=${hour}&Dmn1=${min1}&Dmn2=${min2}&`;
 };
 
