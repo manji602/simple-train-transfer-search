@@ -21,6 +21,7 @@ simple-transfar-search-extension
 ----
 ## changelog
 
+- 2025-04-30 [v1.1.3] ジョルダンのURLが全体的に変わっていたので追従
 - 2024-06-12 [v1.1.2] manifestをv2からv3にアップデート
 - 2013-11-04 [v1.1.1] bug-fix
 - 2013-03-03 [v1.1.0] add option
