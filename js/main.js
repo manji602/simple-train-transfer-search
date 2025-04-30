@@ -1,7 +1,7 @@
 //global value
 const TRANSFER_SEARCH_HEADER   = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
 const TRANSFER_SEARCH_FOOTER   = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
-const TIMETABLE_SEARCH_HEADER  = "http://www.jorudan.co.jp/time/cgi/time.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
+const TIMETABLE_SEARCH_HEADER  = "http://www.jorudan.co.jp/time/cgi/nori.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
 const TIMETABLE_SEARCH_FOOTER  = "&S.x=35&S.y=10&S=検索&Csg=1"
 const TIMETABLE_SEARCH_MODE    = 111;
 const TRANSFER_SEARCH_MODE     = 222;
@@ -201,10 +201,8 @@ const getStationQuery = function(station_from, station_to) {
 const setDate = function () {
   const date = new Date();
   const year = date.getFullYear();
-  const month = date.getMonth()+1;
-  const search_month = "Dym=" + year + "" + month + "&";
-  const search_day = "Ddd=" + date.getDate() + "&";
-  return search_month + search_day;
+  const month = date.getMonth() + 1;
+  return `Dyy=${year}&Dmm=${month}&Ddd=${date.getDate()}&`;
 };
 
 const addMinutes = function (date, minutes) {
@@ -223,17 +221,17 @@ const setMinutesBuffer = function (minutes) {
   const hour = date.getHours();
   const minute = date.getMinutes();
   minute = "" + minute;
-  const min_1 = minute.slice(0, 1);
-  const min_2 = minute.slice(1);
-  return "Dhh=" + hour + "&Dmn1=" + min_1 + "&Dmn2=" + min_2 + "&";
+  const min1 = minute.slice(0, 1);
+  const min2 = minute.slice(1);
+  return `Dhh=${hour}&Dmn1=${min1}&Dmn2=${min2}&`;
 };
 
 const setTimeBuffer = function (time) {
   const hour = (time.length === 3) ? time.slice(0, 1) : time.slice(0, 2);
   const minutes = (time.length === 3) ? time.slice(1) : time.slice(2);
-  const min_1 = minutes.slice(0, 1);
-  const min_2 = minutes.slice(1);
-  return "Dhh=" + hour + "&Dmn1=" + min_1 + "&Dmn2=" + min_2 + "&";
+  const min1 = minutes.slice(0, 1);
+  const min2 = minutes.slice(1);
+  return `Dhh=${hour}&Dmn1=${min1}&Dmn2=${min2}&`;
 };
 
 const navigate = function (url) {
