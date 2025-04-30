@@ -1,8 +1,7 @@
 //global value
 const TRANSFER_SEARCH_HEADER = "http://www.jorudan.co.jp/norikae/cgi/nori.cgi?";
 const TRANSFER_SEARCH_FOOTER = "C7=1&C2=0&C3=0&C1=0&C4=0&C6=2&S.x=41&S.y=13&S=検索&Cmap1=0&rf=nr&pg=0&Csg=1";
-const TIMETABLE_SEARCH_HEADER = "http://www.jorudan.co.jp/time/cgi/nori.cgi?eok1=&Cmap1=&rf=tm&pg=0&eki1=";
-const TIMETABLE_SEARCH_FOOTER = "&S.x=35&S.y=10&S=検索&Csg=1"
+const TIMETABLE_SEARCH_HEADER = "http://www.jorudan.co.jp/eki/cgi/eki.cgi?S=1&Csg=1&eki1=";
 const TIMETABLE_SEARCH_MODE = "timetable";
 const TRANSFER_SEARCH_MODE = "transfer";
 const UNDEFINED_SEARCH_MODE = "undefined";
@@ -103,10 +102,7 @@ const setSearchUrl = function (query, searchMode) {
 };
 
 const getTimetableUrl = function (query) {
-  let url = "";
-  const date = setDate();
-
-  return `${TIMETABLE_SEARCH_HEADER}${query}&${date}${TIMETABLE_SEARCH_FOOTER}`;
+  return `${TIMETABLE_SEARCH_HEADER}${query}`;
 };
 
 const getTransferUrl = function (query, transferSearchMode) {
